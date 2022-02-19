@@ -1,5 +1,6 @@
 
-let personsNumber = 1;
+// Global Variables
+let personsNumber = 0;
 let personsArray = [];
 
 class Person {
@@ -23,23 +24,23 @@ function getPersonData() {
     person.idNumber = document.getElementById('validationCustom04').value;
     person.mobilePhone = document.getElementById('validationCustom05').value;
 
-    AddPersonDataToTableRow(person);  
+    AddPersonDataToTableRow(person,personsNumber);  
     personsArray[personsNumber] = person;
     personsNumber++;  
 }
 
-function AddPersonDataToTableRow(person) {
+function AddPersonDataToTableRow(person,rowNum) {
 
     const tableElement = document.getElementById('persons-table');
 
     // Add person data to Table elements
-    tableElement.innerHTML +=  `<tr>
-                                    <th scope="row">${personsNumber}
-                                    <td>${person.firstName}</td>
-                                    <td>${person.lastName}</td>
-                                    <td>${person.age}</td>
-                                    <td>${person.idNumber}</td>
-                                    <td>${person.mobilePhone}</td>
+    tableElement.innerHTML +=  `<tr id="table-row">
+                                    <th scope="row">${rowNum+1}
+                                    <td >${person.firstName}</td>
+                                    <td >${person.lastName}</td>
+                                    <td >${person.age}</td>
+                                    <td >${person.idNumber}</td>
+                                    <td >${person.mobilePhone}</td>
                                 </th>`;
 }
 
@@ -65,4 +66,28 @@ function togleDisplayDarkLightMode() {
 
     // Display mode icon Element update Dark/Light mode
     DarkSvgiconElement.classList.toggle("icon-dark");
+}
+
+function sortByAge() {
+
+    //debugger;
+    // use slice() to copy the array and not just make a reference
+    let sortedByAgeArray = personsArray.slice(0);
+
+    sortedByAgeArray.sort(function(a,b) {return a.age - b.age});
+
+    // Removing current table rows
+    for(let i = 0;i < sortedByAgeArray.length; i++) {
+        let tableRowElement = document.getElementById('table-row');
+        tableRowElement.remove();
+    }
+    
+    // Fiiling table with sorted data
+    for(let i = 0;i < sortedByAgeArray.length; i++) {
+        AddPersonDataToTableRow(sortedByAgeArray[i],i);
+    }
+
+    // for debug
+    // console.log(personsArray);
+    // console.log(sortedByAgeArray);
 }
