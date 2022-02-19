@@ -17,32 +17,38 @@
 
 </head>
 
-<body class="bg-dark">
+<body>
 
     <!-- Main Section -->
     <main>
-        <header class="p-3 bg-dark text-white">
+        <header id="header-dark-mode" class="p-3">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
                         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
                             <use xlink:href="#bootstrap" /></svg>
                     </a>
 
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                         <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                        <li><a href="#" class="nav-link px-2 text-secondary">About</a></li>
                     </ul>
+
+                    <!-- Display Dark/Light mode togle icon -->
+                    <svg id="icon-dark-mode" class="mode-icon" onclick="togleDisplayDarkLightMode()"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ;transform:
+                        ;msFilter:;">
+                        <path
+                            d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z">
+                        </path>
+                    </svg>
                 </div>
             </div>
         </header>
 
-        <div class="container">
+        <div class=" container">
             <!-- Input Form -->
-            <form class="row g-3 needs-validationd text-white" novalidate>
+            <form id="form-dark-mode" class="row g-3 needs-validationd" novalidate>
                 <div class="col-md-4">
                     <label for="validationCustom01" class="form-label">First name</label>
                     <input type="text" class="form-control" id="validationCustom01" placeholder="First Name" required>
@@ -77,12 +83,13 @@
 
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit" onclick="getPersonData()">Submit</button>
+                    <button type="button" class="btn btn-secondary" onclick="getPersonData()">Submit</button>
+                    <!-- <button class="btn btn-primary" type="submit" onclick="getPersonData()">Submit</button> -->
                 </div>
             </form>
 
             <!-- Table -->
-            <table class="table table-dark table-hover">
+            <table id="table-dark-mode" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

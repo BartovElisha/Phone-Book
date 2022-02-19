@@ -42,3 +42,27 @@ function AddPersonDataToTableRow(person) {
                                     <td>${person.mobilePhone}</td>
                                 </th>`;
 }
+
+function togleDisplayDarkLightMode() {
+    let bodyElement = document.body;
+    let headerElement = document.getElementById('header-dark-mode');
+    let formElement = document.getElementById('form-dark-mode');
+    let tableElement = document.getElementById('table-dark-mode');
+    let DarkSvgiconElement = document.getElementById('icon-dark-mode');
+    
+    // Body Element update Dark/Light mode
+    bodyElement.classList.toggle("bg-dark");
+
+    // Header Element update Dark/Light mode
+    headerElement.classList.toggle("bg-dark");
+    headerElement.classList.toggle("text-white");
+    
+    // Form Element update Dark/Light mode
+    formElement.classList.toggle("text-white")
+
+    // Table Element update Dark/Light mode
+    tableElement.classList.toggle("table-dark")
+
+    // Display mode icon Element update Dark/Light mode
+    DarkSvgiconElement.classList.toggle("icon-dark");
+}
