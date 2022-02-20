@@ -2,6 +2,7 @@
 // Global Variables
 let personsNumber = 0;
 let personsArray = [];
+let tableEmpty = true;
 
 class Person {
     constructor(firstName,lastName,age,idNumber,mobilePhone) {
@@ -32,6 +33,8 @@ function getPersonData() {
 function AddPersonDataToTableRow(person,rowNum) {
 
     const tableElement = document.getElementById('persons-table');
+
+    tableEmpty = false;
 
     // Add person data to Table elements
     tableElement.innerHTML +=  `<tr id="table-row">
@@ -68,26 +71,75 @@ function togleDisplayDarkLightMode() {
     DarkSvgiconElement.classList.toggle("icon-dark");
 }
 
+function clearTable(length) {
+
+    // Removing current table rows only if table not empty
+    if(!tableEmpty) {
+        tableEmpty = true;
+        for(let i = 0;i < length; i++) {
+            let tableRowElement = document.getElementById('table-row');
+            tableRowElement.remove();
+        }
+    }
+    else {
+        alert("List Already Empty");
+    }
+}
+
+function addNewDataToTable(newPersonsArray) {
+
+    // Fiiling table with sorted data
+    for(let i = 0;i < newPersonsArray.length; i++) {
+        AddPersonDataToTableRow(newPersonsArray[i],i);
+    }
+}
+
+function showOriginalList() {
+
+    clearTable(personsArray.length);
+    addNewDataToTable(personsArray);
+}
+
+function sortByFirsName() {
+
+    // use slice() to copy the array and not just make a reference
+    let sortedByAgeArray = personsArray.slice(0);
+
+    sortedByAgeArray.sort(function(a,b) {return a.firstName - b.firstName});
+
+    clearTable(sortedByAgeArray.length);
+    addNewDataToTable(sortedByAgeArray);
+
+    // for debug
+     console.log(personsArray);
+     console.log(sortedByAgeArray);
+}
+
 function sortByAge() {
 
-    //debugger;
     // use slice() to copy the array and not just make a reference
     let sortedByAgeArray = personsArray.slice(0);
 
     sortedByAgeArray.sort(function(a,b) {return a.age - b.age});
 
-    // Removing current table rows
-    for(let i = 0;i < sortedByAgeArray.length; i++) {
-        let tableRowElement = document.getElementById('table-row');
-        tableRowElement.remove();
-    }
-    
-    // Fiiling table with sorted data
-    for(let i = 0;i < sortedByAgeArray.length; i++) {
-        AddPersonDataToTableRow(sortedByAgeArray[i],i);
-    }
+    clearTable(sortedByAgeArray.length);
+    addNewDataToTable(sortedByAgeArray);
 
     // for debug
     // console.log(personsArray);
     // console.log(sortedByAgeArray);
+}
+
+function clearPersonsList() {
+
+    let initLength = personsArray.length;
+
+    if(confirm("Are You Shure ?")) {
+        clearTable(initLength);
+
+        // Clear Persons Array
+        for(let i = 0;i < initLength;i++) {
+            personsArray.pop();
+        }
+    }
 }
