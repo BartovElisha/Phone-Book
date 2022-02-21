@@ -14,6 +14,19 @@ class Person {
     }
 }
 
+function init() {
+    let storedPersonsData = getPersons();
+
+    if (storedPersonsData) {
+        personsArray = storedPersonsData;
+        personsNumber = storedPersonsData.length - 1;
+
+        for(let i = 0; i < storedPersonsData.length; i++) {
+            addPersonDataToTableRow(storedPersonsData[i], i);
+        }
+    }
+}
+
 // This function gets person data from user
 function getPersonData() {
 
@@ -24,13 +37,37 @@ function getPersonData() {
     person.age = document.getElementById('validationCustom03').value;
     person.idNumber = document.getElementById('validationCustom04').value;
     person.mobilePhone = document.getElementById('validationCustom05').value;
-
-    AddPersonDataToTableRow(person,personsNumber);  
+    
+    // Print person data to table row
+    addPersonDataToTableRow(person,personsNumber);
+    
+    // Add person data to array
     personsArray[personsNumber] = person;
     personsNumber++;  
+
+    // Store persons array to local store
+    //storePersons(personsArray);
 }
 
-function AddPersonDataToTableRow(person,rowNum) {
+function clearLocalStorage() {
+    localstorage.clear();
+}
+
+function removeOldPersonsArray() {
+    localStorage.removeItem("persons");
+}
+
+function storePersons(personsArray) {
+    localStorage.setItem('persons', JSON.stringify(personsArray));
+}
+
+function getPersons() {
+    if(localStorage.getItem('persons')) {
+        return JSON.parse(localStorage.getItem('persons'));
+    }
+}
+
+function addPersonDataToTableRow(person,rowNum) {
 
     const tableElement = document.getElementById('persons-table');
 
@@ -45,6 +82,72 @@ function AddPersonDataToTableRow(person,rowNum) {
                                     <td >${person.idNumber}</td>
                                     <td >${person.mobilePhone}</td>
                                 </th>`;
+}
+
+function clearTable(length) {
+
+    // Removing current table rows only if table not empty
+    if(!tableEmpty) {
+        tableEmpty = true;
+        for(let i = 0;i < length; i++) {
+            let tableRowElement = document.getElementById('table-row');
+            tableRowElement.remove();
+        }
+    }
+    else {
+        alert("List Already Empty");
+    }
+}
+
+function addNewDataToTable(newPersonsArray) {
+
+    // Fiiling table with sorted data
+    for(let i = 0;i < newPersonsArray.length; i++) {
+        addPersonDataToTableRow(newPersonsArray[i],i);
+    }
+}
+
+function showOriginalList() {
+
+    clearTable(personsArray.length);
+    addNewDataToTable(personsArray);
+}
+
+function sortByFirsName() {
+
+    // for debug
+     console.log(personsArray);
+     console.log(sortedByAgeArray);
+}
+
+function sortByAge() {
+
+    // use slice() to copy the array and not just make a reference
+    let sortedByAgeArray = personsArray.slice(0);
+
+    sortedByAgeArray.sort(function(a,b) {return a.age - b.age});
+
+    clearTable(sortedByAgeArray.length);
+    addNewDataToTable(sortedByAgeArray);
+}
+
+function clearPersonsList() {
+
+    let initLength = personsArray.length;
+
+    if(confirm("Are You Shure ?")) {
+        clearTable(initLength);
+
+        // Clear Persons Array
+        for(let i = 0;i < initLength;i++) {
+            personsArray.pop();
+        }
+        // Clear persons number
+        personsNumber = 0;
+
+        // Clear Local storage
+        //clearLocalStorage();
+    }
 }
 
 function togleDisplayDarkLightMode() {
@@ -69,77 +172,4 @@ function togleDisplayDarkLightMode() {
 
     // Display mode icon Element update Dark/Light mode
     DarkSvgiconElement.classList.toggle("icon-dark");
-}
-
-function clearTable(length) {
-
-    // Removing current table rows only if table not empty
-    if(!tableEmpty) {
-        tableEmpty = true;
-        for(let i = 0;i < length; i++) {
-            let tableRowElement = document.getElementById('table-row');
-            tableRowElement.remove();
-        }
-    }
-    else {
-        alert("List Already Empty");
-    }
-}
-
-function addNewDataToTable(newPersonsArray) {
-
-    // Fiiling table with sorted data
-    for(let i = 0;i < newPersonsArray.length; i++) {
-        AddPersonDataToTableRow(newPersonsArray[i],i);
-    }
-}
-
-function showOriginalList() {
-
-    clearTable(personsArray.length);
-    addNewDataToTable(personsArray);
-}
-
-function sortByFirsName() {
-
-    // use slice() to copy the array and not just make a reference
-    let sortedByAgeArray = personsArray.slice(0);
-
-    sortedByAgeArray.sort(function(a,b) {return a.firstName - b.firstName});
-
-    clearTable(sortedByAgeArray.length);
-    addNewDataToTable(sortedByAgeArray);
-
-    // for debug
-     console.log(personsArray);
-     console.log(sortedByAgeArray);
-}
-
-function sortByAge() {
-
-    // use slice() to copy the array and not just make a reference
-    let sortedByAgeArray = personsArray.slice(0);
-
-    sortedByAgeArray.sort(function(a,b) {return a.age - b.age});
-
-    clearTable(sortedByAgeArray.length);
-    addNewDataToTable(sortedByAgeArray);
-
-    // for debug
-    // console.log(personsArray);
-    // console.log(sortedByAgeArray);
-}
-
-function clearPersonsList() {
-
-    let initLength = personsArray.length;
-
-    if(confirm("Are You Shure ?")) {
-        clearTable(initLength);
-
-        // Clear Persons Array
-        for(let i = 0;i < initLength;i++) {
-            personsArray.pop();
-        }
-    }
 }
